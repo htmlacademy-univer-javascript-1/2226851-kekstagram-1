@@ -1,5 +1,9 @@
 const PHOTOS_NUM = 25;
 const LIKES = {min: 15, max: 200};
+const ARRAY_ID = Array(PHOTOS_NUM).fill(false);
+const ARRAY_URL = Array(PHOTOS_NUM).fill(false);
+const NUM_OF_COMMENTS = 3;
+const MAX_ID = 25;
 
 const DESCRIPTIONS = [
   'Рождена, чтобы сиять, как бриллиант.',
@@ -50,12 +54,19 @@ const getRandomInt = (from, to) => {
 };
 
 //проверка максимальной длины строки
+// eslint-disable-next-line no-unused-vars
 const maxString = (value, maxLength) => maxLength >= value.length;
 
-getRandomInt(0, 1000);
-maxString('Textstring', 20);
-
 const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
+
+const getRandomId= (array) => {
+  for (let i = 0; i < array.length; i++) {
+    if (!array[i]) {
+      array[i] = true;
+      return i + 1;
+    }
+  }
+};
 
 const createComment = () => ({
   id: getRandomInt(1, 10000),
@@ -64,12 +75,13 @@ const createComment = () => ({
   name: getRandomArrayElement(NAMES)
 });
 
-const createDescription = (id) => ({
-  id: id,
-  url: `photos/${id}.jpg`,
+const createDescription = () => ({
+  id: getRandomId(ARRAY_ID),
+  url: `photos/${getRandomId(ARRAY_URL, 1, MAX_ID)}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInt(LIKES.min, LIKES.max),
-  comments: Array.from({length: getRandomInt(1, 6)}).map((_value, index) => createComment(index + 1))
+  comments: Array.from({length: NUM_OF_COMMENTS}, createComment)
 });
 
-Array.from({length: PHOTOS_NUM}, createDescription);
+// eslint-disable-next-line no-console
+console.log(Array.from({length: PHOTOS_NUM}, createDescription));
