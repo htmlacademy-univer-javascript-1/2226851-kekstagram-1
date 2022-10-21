@@ -59,10 +59,10 @@ const maxString = (value, maxLength) => maxLength >= value.length;
 
 const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
 
-const getRandomId= (array) => {
-  for (let i = 0; i < array.length; i++) {
-    if (!array[i]) {
-      array[i] = true;
+const getRandomId= (arrayOfNum) => {
+  for (let i = 0; i < arrayOfNum.length; i++) {
+    if (!arrayOfNum[i]) {
+      arrayOfNum[i] = true;
       return i + 1;
     }
   }
@@ -83,5 +83,9 @@ const createDescription = () => ({
   comments: Array.from({length: NUM_OF_COMMENTS}, createComment)
 });
 
+
+const createDescriptions = () => Array.from({length: PHOTOS_NUM}, createDescription);
+
+const descriptions = createDescriptions();
 // eslint-disable-next-line no-console
-console.log(Array.from({length: PHOTOS_NUM}, createDescription));
+console.log(descriptions);
