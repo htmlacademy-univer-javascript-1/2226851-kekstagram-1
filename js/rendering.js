@@ -1,3 +1,5 @@
+import { openFullSizePicture } from './big-pictures.js';
+
 const pictureListElement = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content;
 const pictureTemplate2 = pictureTemplate.querySelector('.picture');
@@ -9,6 +11,9 @@ const renderingPictures = (pictures) => {
     pictureElement.querySelector('.picture__img').src = picture.url;
     pictureElement.querySelector('.picture__likes').textContent = picture.likes;
     pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
+    pictureElement.addEventListener('click', () => {
+      openFullSizePicture(picture);
+    });
     pictureFragment.appendChild(pictureElement);
   });
   pictureListElement.appendChild(pictureFragment);

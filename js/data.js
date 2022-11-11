@@ -1,4 +1,5 @@
 import {getRandomInt, getRandomArrayElement, getRandomId} from './util.js';
+
 const PHOTOS_NUM = 25;
 const LIKES = {min: 15, max: 200};
 const ARRAY_ID = Array(PHOTOS_NUM).fill(false);
@@ -19,8 +20,8 @@ const DESCRIPTIONS = [
 ];
 
 const NAMES = [
-  'Елена',
   'Марина',
+  'Алена',
   'Александра',
   'Виктория',
   'Ангелина',
