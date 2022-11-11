@@ -3,7 +3,7 @@ const pictureTemplate = document.querySelector('#picture').content;
 const pictureTemplate2 = pictureTemplate.querySelector('.picture');
 const pictureFragment = document.createDocumentFragment();
 
-const renderingImages = (pictures) => {
+const renderingPictures = (pictures) => {
   pictures.forEach((picture) => {
     const pictureElement = pictureTemplate2.cloneNode(true);
     pictureElement.querySelector('.picture__img').src = picture.url;
@@ -14,4 +14,4 @@ const renderingImages = (pictures) => {
   pictureListElement.appendChild(pictureFragment);
 };
 
-export {renderingImages};
+export {renderingPictures};
