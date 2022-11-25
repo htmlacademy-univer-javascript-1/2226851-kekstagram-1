@@ -1,13 +1,13 @@
-const MIN_LENGTH = 2;
 const MAX_LENGTH = 20;
+const MIN_LENGTH = 2;
 const MAX_HASHTAGS = 5;
 
-const form = document.querySelector('.img-upload__form');
+const uploadForm = document.querySelector('.img-upload__form');
 const hashtag = document.querySelector('.text__hashtags');
 const uploadButton = document.querySelector('.img-upload__submit');
 let errorMessage = '';
 
-const pristine = new Pristine(form, {
+const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'img-upload__field--invalid',
   successClass: 'img-upload__field--valid',
@@ -33,7 +33,7 @@ const hashtagsHandler = (value) => {
     return true;
   }
 
-  const rules = [
+  const requirements = [
     {
       check: inputArray.some((item) => item.indexOf('#', 1) >= 1),
       error: 'Хэш-теги разделяются пробелами',
@@ -64,7 +64,7 @@ const hashtagsHandler = (value) => {
     }
   ];
 
-  return rules.every((rule) => {
+  return requirements.every((rule) => {
     const isInvalid = rule.check;
     if (isInvalid) {
       errorMessage = rule.error;

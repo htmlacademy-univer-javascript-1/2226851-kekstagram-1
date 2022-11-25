@@ -4,7 +4,7 @@ const PHOTOS_NUM = 25;
 const LIKES = {min: 15, max: 200};
 const ARRAY_ID = Array(PHOTOS_NUM).fill(false);
 const ARRAY_URL = Array(PHOTOS_NUM).fill(false);
-const NUM_OF_COMMENTS = 3;
+const NUM_OF_COMMENTS = 20;
 const MAX_ID = 25;
 
 const DESCRIPTIONS = [
@@ -52,7 +52,7 @@ const createDescription = () => ({
   url: `photos/${getRandomId(ARRAY_URL, 1, MAX_ID)}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInt(LIKES.min, LIKES.max),
-  comments: Array.from({length: NUM_OF_COMMENTS}, createComment)
+  comments: Array.from({length: getRandomInt(1, NUM_OF_COMMENTS)}, createComment)
 });
 
 const createDescriptions = () => Array.from({length: PHOTOS_NUM}, createDescription);

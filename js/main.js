@@ -4,4 +4,3 @@ import './userForm.js';
 
 const descriptions = createDescriptions();
 renderingPictures(descriptions);
-
