@@ -19,4 +19,11 @@ const renderingPictures = (pictures) => {
   pictureListElement.appendChild(pictureFragment);
 };
 
-export {renderingPictures};
+const removingPictures = () => {
+  const oldPictures = pictureListElement.querySelectorAll('.picture');
+  oldPictures.forEach((picture) => {
+    picture.remove();
+  });
+};
+
+export {renderingPictures, removingPictures};

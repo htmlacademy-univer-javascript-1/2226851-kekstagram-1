@@ -93,8 +93,8 @@ const onEffectsClick = (evt) => {
 
 const setEffects = () => {
   currentEffect = 'effects__preview--none';
-
   uploadingPicture.style.filter = effects.none();
+  effectsList.children[0].querySelector('input').checked = true;
 };
 
 sliderItem.noUiSlider.on('change', onSliderChange);
