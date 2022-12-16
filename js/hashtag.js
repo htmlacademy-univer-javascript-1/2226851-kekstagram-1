@@ -1,88 +1,89 @@
-const MAX_LENGTH = 20;
-const MIN_LENGTH = 2;
-const MAX_HASHTAGS = 5;
+const MAX_HASHTAGS_LENGTH = 20;
+const MAX_HASHTAGS_COUNT = 5;
 
 const uploadForm = document.querySelector('.img-upload__form');
-const hashtag = document.querySelector('.text__hashtags');
-const uploadButton = document.querySelector('.img-upload__submit');
+const inputHashtag = uploadForm.querySelector('.text__hashtags');
+const submitButton = uploadForm.querySelector('#upload-submit');
 let errorMessage = '';
 
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
-  errorClass: 'img-upload__field--invalid',
-  successClass: 'img-upload__field--valid',
+  errorClass: 'img-upload__item--invalid',
+  successClass: 'img-upload__item--valid',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextTag: 'div',
-  errorTextClass : 'img-upload__error'
+  errorTextClass: 'img-upload__error'
 });
 
 const error = () => errorMessage;
 
-const hashtagsHandler = (value) => {
+const hashtagErrorHandler = (value) => {
   errorMessage = '';
-
-  const inputText = value.toLowerCase().trim();
-
-  if(!inputText) {
+  const hashtagInputText = value.toLowerCase().trim();
+  if(hashtagInputText.length === 0){
     return true;
   }
 
-  const inputArray = inputText.split(/\s+/);
-
-  if (inputArray.length === 0) {
+  const hashtagTexts = hashtagInputText.split(/\s+/);
+  if(hashtagTexts.length === 0) {
     return true;
   }
 
   const requirements = [
     {
-      check: inputArray.some((item) => item.indexOf('#', 1) >= 1),
-      error: 'Хэш-теги разделяются пробелами',
+      check: hashtagTexts.some((item) => item.indexOf('#', 1) > 0),
+      error: 'Хэш-теги разделяются пробелами'
     },
     {
-      check: inputArray.some((item) => item[0] !== '#'),
-      error: 'Хэш-тег начинается с символа #',
+      check: hashtagTexts.some((item) => item[0] !== '#'),
+      error: 'Хэш-тег начинается с символа #'
     },
     {
-      check: inputArray.some((item, num, arr) => arr.includes(item, num + 1)),
-      error: 'Хэш-теги не должны повторяться',
+      check: hashtagTexts.some((item) => item.length === 1 || item[0] !== '#'),
+      error: 'Хеш-тег не может состоять только из одной решётки'
     },
     {
-      check: inputArray.some((item) => item.length > MAX_LENGTH),
-      error: `Длина хеш-тега не должна превышать ${MAX_LENGTH} символов`,
+      check: hashtagTexts.some((item) => item.length > MAX_HASHTAGS_LENGTH),
+      error: `Длина хеш-тега превышает ${MAX_HASHTAGS_LENGTH} символов`
     },
     {
-      check: inputArray.length > MAX_HASHTAGS,
-      error: `Нельзя использовать больше ${MAX_HASHTAGS} хеш-тегов`,
+      check: hashtagTexts.some((item, index, array) => array.indexOf(item, index + 1) > index),
+      error: 'Один и тот же хэш-тег не может быть использован дважды'
     },
     {
-      check: inputArray.some((item) => item.length < MIN_LENGTH),
-      error: 'Хэш-тег не может состоять только из одной решётки',
+      check: hashtagTexts.some((item) => !/^#[0-9а-яёa-z]{1,19}$/i.test(item)),
+      error: 'Хеш-тег содержит недопустимые символы'
     },
     {
-      check: inputArray.some((item) => !/^#[a-zа-яё0-9]{1,19}$/i.test(item)),
-      error: 'Хэш-тег содержит недопустимые символы',
+      check: hashtagTexts.length > MAX_HASHTAGS_COUNT,
+      error: `Нельзя указывать больше ${MAX_HASHTAGS_COUNT} хэш-тегов`
     }
   ];
 
   return requirements.every((rule) => {
-    const isInvalid = rule.check;
-    if (isInvalid) {
+    const isValid = !rule.check;
+    if(!isValid){
       errorMessage = rule.error;
     }
-    return !isInvalid;
+    return isValid;
   });
 };
 
-pristine.addValidator(hashtag, hashtagsHandler, error, 2, false);
+pristine.addValidator(inputHashtag, hashtagErrorHandler, error, 2, false);
 
 const onHashtagInput = () => {
-  if (pristine.validate()) {
-    uploadButton.removeAttribute('disabled');
-  } else {
-    uploadButton.setAttribute('disabled', 'disabled');
-  }
+  submitButton.disabled = !pristine.validate();
 };
 
-hashtag.addEventListener('input', onHashtagInput);
+const uploadHashtagInput = () => {
+  inputHashtag.addEventListener('input', onHashtagInput);
+};
 
-export {hashtag};
+const checkValidation = () => pristine.validate();
+
+const clearHashtagsField = () => {
+  inputHashtag.value = '';
+  pristine.validate();
+};
+
+export {uploadHashtagInput, clearHashtagsField, checkValidation};

@@ -1,8 +1,12 @@
-import {createDescriptions} from './data.js';
-import {renderingPictures} from './rendering.js';
-import './userForm.js';
-import './image-scale.js';
-import './effect.js';
+import { renderingPictures } from './rendering.js';
+import { uploadForm } from './form-upload.js';
+import { setData } from './api.js';
+import { showAlert } from './util.js';
 
-const descriptions = createDescriptions();
-renderingPictures(descriptions);
+setData(renderingPictures,
+  () => {
+    showAlert('Не удалось загрузить фото');
+  },
+  'GET');
+
+uploadForm();
