@@ -1,9 +1,8 @@
-import { renderingPictures } from './rendering.js';
-import { uploadForm } from './form-upload.js';
-import { setData } from './api.js';
-import { showAlert } from './util.js';
+import {uploadForm} from './form-upload.js';
+import {setData} from './api.js';
+import {onSuccess, showAlert} from './upload-data.js';
 
-setData(renderingPictures,
+setData(onSuccess,
   () => {
     showAlert('Не удалось загрузить фото');
   },
