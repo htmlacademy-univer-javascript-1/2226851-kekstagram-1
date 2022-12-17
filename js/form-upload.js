@@ -4,6 +4,7 @@ import { scalingPhotos } from './image-scale.js';
 import { setEffects } from './effect.js';
 import { setData } from './api.js';
 import { addPostMessages, showSuccessMessage, closeMessage, showErrorMessage } from './post-message.js';
+import { uploadFile} from './file-upload.js';
 
 const form = document.querySelector('.img-upload__form');
 const uploadingControl = form.querySelector('#upload-file');
@@ -39,6 +40,7 @@ closeButton.addEventListener('click', closeForm);
 
 const onUploadClick = () => {
   document.addEventListener('keydown', onEscapeKeydown);
+  uploadFile(uploadingControl.files[0]);
   pictureWindow.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
   scalingPhotos();
